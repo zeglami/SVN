@@ -1,0 +1,43 @@
+---------------Client---------------
+Terminal client
+Installation du Svn :
+sudo apt-get install subversion
+Crée un dossier avec un sous-dossier
+mkdir -p svn/project
+creation d’un fichier dans le dossier project
+nano test.c
+---------------Server---------------
+Connexion au serveur avec la commande :
+ssh zeglami@IP
+(hostname@IP_Address) 
+Crée un dossier avec un sous-dossier dans le serveur :
+sudo mkdir -p /svn/repos
+creation de ‘Repository’
+sudo svnadmin create /svn/repos/project
+démarrer svn
+sudo svnserve -d -r /svn/repos
+Configuration d’un compte utilisateur
+sudo nano /svn/repos/project/conf/svnserve.conf
+changer # anon-access = read par anon-access = none
+Enlever # dans les lignes
+# auth-access = write
+# Password-db = passwd
+sudo nano /svn/repos/project/conf/passwd
+Ajouter une ligne à la fin 
+Utilisateur = mot-de-pass
+---------------Client---------------
+Terminal client
+Envoyer le fichier vers le serveur :
+svn import project/ svn://ip/project
+Suppression du fichier dans la machine client
+rm *tmp
+rm -rf project/
+Récupération du fichier
+svn co svn://ip/project
+
+Modification du fichier
+nano test.c
+Pour valider la modification : 
+svn commit -m "modification du test.c"
+Récupérer la version précédente :
+svn update -r 1
